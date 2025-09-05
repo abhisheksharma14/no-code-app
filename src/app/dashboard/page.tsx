@@ -120,8 +120,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className=\"min-h-screen flex items-center justify-center\">
-        <div className=\"text-xl\">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
       </div>
     );
   }
@@ -265,3 +265,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
+}
