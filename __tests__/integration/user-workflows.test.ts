@@ -3,10 +3,30 @@
  * These tests simulate real user journeys through the application
  */
 
+// Mock the database FIRST
+jest.mock('@/lib/db', () => ({
+  db: {
+    user: {
+      findUnique: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    },
+  },
+}));
+
+// Mock the auth functions FIRST
+jest.mock('@/lib/auth', () => ({
+  hashPassword: jest.fn(),
+  comparePassword: jest.fn(),
+  generateToken: jest.fn(() => 'mock-jwt-token'),
+}));
+
+// Now import everything after mocks are set up
 import { POST as createUser } from '@/app/api/v1/users/route';
 import { POST as loginUser } from '@/app/api/v1/auth/login/route';
 import { db } from '@/lib/db';
-import { hashPassword, comparePassword } from '@/lib/auth';
+import { hashPassword, comparePassword, generateToken } from '@/lib/auth';
 import { 
   createMockRequest, 
   createMockUser, 
@@ -20,28 +40,11 @@ import {
 // Setup global mocks
 setupGlobalMocks();
 
-// Mock the database
-jest.mock('@/lib/db', () => ({
-  db: {
-    user: {
-      findUnique: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-  },
-}));
-
-// Mock the auth functions
-jest.mock('@/lib/auth', () => ({
-  hashPassword: jest.fn(),
-  comparePassword: jest.fn(),
-  generateToken: jest.fn(() => 'mock-jwt-token'),
-}));
-
 describe('User Workflows Integration Tests', () => {
   beforeEach(() => {
     cleanupMocks();
+    // Ensure generateToken mock is properly set
+    (generateToken as jest.Mock).mockReturnValue('mock-jwt-token');
   });
 
   describe('Complete User Registration and Login Flow', () => {
@@ -60,6 +63,7 @@ describe('User Workflows Integration Tests', () => {
       (db.user.findUnique as jest.Mock).mockResolvedValueOnce(null); // User doesn't exist
       (db.user.create as jest.Mock).mockResolvedValueOnce(mockUser);
       (hashPassword as jest.Mock).mockResolvedValueOnce(hashedPassword);
+      (generateToken as jest.Mock).mockReturnValueOnce('mock-jwt-token');
 
       // Create user
       const registrationRequest = createMockRequest(userData);
@@ -83,6 +87,7 @@ describe('User Workflows Integration Tests', () => {
       // Mock database responses for login
       (db.user.findUnique as jest.Mock).mockResolvedValueOnce(mockUser);
       (comparePassword as jest.Mock).mockResolvedValueOnce(true);
+      (generateToken as jest.Mock).mockReturnValueOnce('mock-jwt-token');
 
       // Login user
       const loginRequest = createMockRequest(loginData);
