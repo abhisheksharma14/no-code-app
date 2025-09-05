@@ -3,6 +3,15 @@ import { POST } from '@/app/api/v1/users/route';
 import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
 
+// Mock global Response
+global.Response = {
+  json: (data: any, init?: ResponseInit) => ({
+    json: async () => data,
+    status: init?.status || 200,
+    ok: (init?.status || 200) >= 200 && (init?.status || 200) < 300,
+  }),
+} as any;
+
 // Mock the database
 jest.mock('@/lib/db', () => ({
   db: {
@@ -44,17 +53,16 @@ describe('/api/v1/users', () => {
       (db.user.create as jest.Mock).mockResolvedValue(mockUser);
       (hashPassword as jest.Mock).mockResolvedValue('hashed-password');
 
-      const { req } = createMocks({
-        method: 'POST',
-        body: {
+      const mockRequest = {
+        json: async () => ({
           email: 'test@example.com',
           firstName: 'John',
           lastName: 'Doe',
           password: 'password123',
-        },
-      });
+        }),
+      } as any;
 
-      const response = await POST(req as any);
+      const response = await POST(mockRequest);
       const data = await response.json();
 
       expect(response.status).toBe(201);
@@ -66,17 +74,16 @@ describe('/api/v1/users', () => {
     it('should return 400 if user already exists', async () => {
       (db.user.findUnique as jest.Mock).mockResolvedValue({ id: 'existing-user' });
 
-      const { req } = createMocks({
-        method: 'POST',
-        body: {
+      const mockRequest = {
+        json: async () => ({
           email: 'test@example.com',
           firstName: 'John',
           lastName: 'Doe',
           password: 'password123',
-        },
-      });
+        }),
+      } as any;
 
-      const response = await POST(req as any);
+      const response = await POST(mockRequest);
       const data = await response.json();
 
       expect(response.status).toBe(400);
@@ -84,17 +91,16 @@ describe('/api/v1/users', () => {
     });
 
     it('should return 400 for invalid data', async () => {
-      const { req } = createMocks({
-        method: 'POST',
-        body: {
+      const mockRequest = {
+        json: async () => ({
           email: 'invalid-email',
           firstName: '',
           lastName: 'Doe',
           password: '123', // Too short
-        },
-      });
+        }),
+      } as any;
 
-      const response = await POST(req as any);
+      const response = await POST(mockRequest);
       expect(response.status).toBe(400);
     });
   });
