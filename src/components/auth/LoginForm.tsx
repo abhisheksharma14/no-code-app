@@ -55,7 +55,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-        Login to Maersk Bank
+        Login to Bank
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">

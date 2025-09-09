@@ -71,7 +71,7 @@ export default function SignupForm({ onSuccess }: SignupFormProps) {
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-        Join Maersk Bank
+        Join Bank
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">

@@ -139,7 +139,7 @@ export default function Dashboard() {
             <h1 className="text-3xl font-bold text-gray-900">
               Welcome, {user.firstName}!
             </h1>
-            <p className="text-gray-600">Manage your Maersk Bank account</p>
+            <p className="text-gray-600">Manage your Bank account</p>
           </div>
           <button
             onClick={handleLogout}

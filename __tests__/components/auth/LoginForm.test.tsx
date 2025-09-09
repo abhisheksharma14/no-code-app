@@ -31,7 +31,7 @@ describe('LoginForm', () => {
   it('should render login form with all fields', () => {
     render(<LoginForm />);
 
-    expect(screen.getByText('Login to Maersk Bank')).toBeInTheDocument();
+    expect(screen.getByText('Login to Bank')).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();

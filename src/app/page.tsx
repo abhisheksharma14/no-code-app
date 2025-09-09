@@ -13,7 +13,7 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            🏦 Maersk Bank
+            🏦 Bank
           </h1>
           <p className="text-lg text-gray-600">
             Your digital banking solution powered by AI-assisted development

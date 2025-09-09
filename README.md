@@ -1,10 +1,10 @@
-# 🏦 Maersk Bank - Digital Banking API
+# 🏦 Bank - Digital Banking API
 
 > **Vibe Coding: Build with AI** — A comprehensive digital banking application built with Next.js, featuring full CRUD operations, JWT authentication, and modern UI components.
 
 ## 🚀 Overview
 
-This is a fictional digital banking application for Maersk Bank that enables users to:
+This is a fictional digital banking application for Bank that enables users to:
 - Create and manage personal accounts
 - Secure authentication with JWT tokens
 - Update personal information
@@ -59,7 +59,7 @@ src/
 1. **Clone and setup:**
    ```bash
    git clone <repository-url>
-   cd maersk-bank-api
+   cd no-code-app
    npm install
    ```
 
